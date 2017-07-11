@@ -190,9 +190,9 @@ def speed():
                 float64_times / float32_times), file=sys.stderr)
 
     #test in float32 in FAST_RUN mode on the gpu
-    import theano.sandbox.cuda
+    import theano.gpuarray
     if do_gpu:
-        theano.sandbox.cuda.use('gpu')
+        theano.gpuarray.use('cuda')
         gpu_times = do_tests()
         times_dic['gpu'] = gpu_times
         test_total += numpy.size(gpu_times)
@@ -230,7 +230,7 @@ def speed():
             f.write('<testsuite name="dlt_speedtests_{label}" tests="{ntests}">\n'
                     .format(label=label, ntests=test_total/len(times_dic)))
             for algo, time in zip(algo_executed, times):
-                f.write('   <testcase classname="speed" name="{algo}" time="{time}">'
+                f.write('   <testcase classname="speed.{label}" name="{algo}" time="{time}">'
                         .format(label=label, algo=algo, time=time))
                 f.write('   </testcase>\n')
             f.write('</testsuite>\n')
